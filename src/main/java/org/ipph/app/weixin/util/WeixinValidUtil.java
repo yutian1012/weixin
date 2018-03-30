@@ -1,7 +1,9 @@
-package org.ipph.app.weixin;
+package org.ipph.app.weixin.util;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
+
+import org.ipph.app.weixin.WeixinConstant;
 
 public class WeixinValidUtil {
 	private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5',  
