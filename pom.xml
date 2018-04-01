@@ -13,6 +13,7 @@
     <log4j.version>1.2.17</log4j.version>
     <jstl.version>1.2</jstl.version>
     <dom4j.version>1.6.1</dom4j.version>
+    <Gson.version>2.8.0</Gson.version>
   </properties>
   
   <dependencies>
@@ -42,6 +43,12 @@
 	    <version>${log4j.version}</version>
 	</dependency>
 	
+    <dependency>
+	    <groupId>com.google.code.gson</groupId>
+	    <artifactId>gson</artifactId>
+	    <version>${Gson.version}</version>
+	</dependency>
+		
 	<!-- 编译环境 -->
 	<dependency>
 	    <groupId>javax.servlet</groupId>

@@ -1,6 +1,6 @@
 package org.ipph.app.weixin.xml;
 
-import org.ipph.app.weixin.model.MessageModel;
+import org.ipph.app.weixin.model.message.MessageModel;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -57,7 +57,7 @@ public class MessageHandler extends DefaultHandler {
     				message.setMsgType(temp.toString());
     			}
     		}
-    	}else if(XmlElement.Content.equals(qName)){
+    	}/*else if(XmlElement.Content.equals(qName)){
     		if(null!=message){
     			if(temp.length()>0){
     				message.setContent(temp.toString());
@@ -69,7 +69,7 @@ public class MessageHandler extends DefaultHandler {
     				message.setMsgId(temp.toString());
     			}
     		}
-    	}
+    	}*/
     	
     	temp.setLength(0);
     }  

@@ -1,57 +1,79 @@
 package org.ipph.app.weixin.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ipph.app.weixin.message.WeixinMessageContext;
+import org.ipph.app.weixin.model.message.MessageModel;
+import org.ipph.app.weixin.util.WeixinMessageUtil;
 import org.ipph.app.weixin.util.WeixinValidUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 @RequestMapping("/app")
 public class WeixinController {
-	@RequestMapping("/index")
+	
+	@Resource
+	private WeixinMessageContext weixinMessageContext;
+	
+	@RequestMapping(value="/index")
 	@ResponseBody
-    public String index(HttpServletRequest request,HttpServletResponse response,String echostr ){
+    public ResponseEntity<String> ResponseEntity(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		response.setCharacterEncoding("UTF-8");
+		HttpHeaders headers = new HttpHeaders();
+        MediaType mediaType = new MediaType("text","html",Charset.forName("utf-8"));
+        headers.setContentType(mediaType);
+		
+		return new ResponseEntity<String>(getResponseText(request),headers,HttpStatus.OK);
+    }
+	/**
+	 * 处理返回文档信息
+	 * @param request
+	 * @return
+	 */
+	private String getResponseText(HttpServletRequest request) {
+		
+		String result=null;
+		String echostr =request.getParameter("echostr");
 		if(null!=echostr) {//校验数据
 			String signature=request.getParameter("signature");
 			String timestamp=request.getParameter("timestamp");
 			String nonce=request.getParameter("nonce");
 			if(WeixinValidUtil.valid(timestamp, nonce, signature)) {
-				return echostr;
+				result=echostr;
 			}
 		}else {
-			
-		}
-		return null;
-    }
-	
-	public String receiveMessage(InputStream in) {
-		BufferedReader reader=null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(in));
-			char[] buf=new char[1024];
-			StringBuilder message=new StringBuilder();
-			int len=0;
-			while((len=reader.read(buf))!=-1) {
-				message.append(new String(buf,0,len));
-			}
-			System.out.println(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
+			InputStream in=null;
 			try {
-				reader.close();
+				in=request.getInputStream();
+				MessageModel message=WeixinMessageUtil.getMessage(MessageModel.class, in);
+				if(null!=message) {
+					return weixinMessageContext.responseMessage(message);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			}finally {
+				if(null!=in) {
+					try {
+						in.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
-		return null;
+		return result;
 	}
+	
 }

@@ -1,57 +1,53 @@
-package org.ipph.app.weixin.model;
+package org.ipph.app.weixin.model.message;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="xml")
 public class MessageModel {
-	@XmlElement(name="ToUserName")
 	private String ToUserName;
-	@XmlElement(name="FromUserName")
+	
 	private String FromUserName;
-	@XmlElement(name="CreateTime")
+	
 	private Long CreateTime;
-	@XmlElement(name="MsgType")
+	
 	private String MsgType;
-	@XmlElement(name="Content")
-	private String Content;
-	@XmlElement(name="MsgId")
-	private String MsgId;
+	
+	private String dealType;
+	
 	public String getToUserName() {
 		return ToUserName;
 	}
+	@XmlElement(name="ToUserName")
 	public void setToUserName(String toUserName) {
 		ToUserName = toUserName;
 	}
 	public String getFromUserName() {
 		return FromUserName;
 	}
+	@XmlElement(name="FromUserName")
 	public void setFromUserName(String fromUserName) {
 		FromUserName = fromUserName;
 	}
 	public Long getCreateTime() {
 		return CreateTime;
 	}
+	@XmlElement(name="CreateTime")
 	public void setCreateTime(Long createTime) {
 		CreateTime = createTime;
 	}
 	public String getMsgType() {
 		return MsgType;
 	}
+	@XmlElement(name="MsgType")
 	public void setMsgType(String msgType) {
 		MsgType = msgType;
 	}
-	public String getContent() {
-		return Content;
+	public String getDealType() {
+		return dealType;
 	}
-	public void setContent(String content) {
-		Content = content;
+	@XmlElement(name="dealType",required=false)
+	public void setDealType(String dealType) {
+		this.dealType = dealType;
 	}
-	public String getMsgId() {
-		return MsgId;
-	}
-	public void setMsgId(String msgId) {
-		MsgId = msgId;
-	}
-	
 }
