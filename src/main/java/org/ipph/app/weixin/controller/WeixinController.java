@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.ipph.app.weixin.message.WeixinMessageContext;
+import org.ipph.app.weixin.message.response.WeixinMessageResponseContext;
 import org.ipph.app.weixin.model.message.MessageModel;
 import org.ipph.app.weixin.util.WeixinMessageUtil;
 import org.ipph.app.weixin.util.WeixinValidUtil;
@@ -25,7 +25,7 @@ import org.springframework.http.ResponseEntity;
 public class WeixinController {
 	
 	@Resource
-	private WeixinMessageContext weixinMessageContext;
+	private WeixinMessageResponseContext weixinMessageResponseContext;
 	
 	@RequestMapping(value="/index")
 	@ResponseBody
@@ -59,7 +59,7 @@ public class WeixinController {
 				in=request.getInputStream();
 				MessageModel message=WeixinMessageUtil.getMessage(MessageModel.class, in);
 				if(null!=message) {
-					return weixinMessageContext.responseMessage(message);
+					return weixinMessageResponseContext.responseMessage(message);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

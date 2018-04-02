@@ -1,4 +1,4 @@
-package org.ipph.app.weixin.message;
+package org.ipph.app.weixin.message.response;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

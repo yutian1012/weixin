@@ -1,4 +1,4 @@
-package org.ipph.app.weixin.message;
+package org.ipph.app.weixin.message.response;
 
 import org.ipph.app.weixin.model.message.EventMessageModel;
 import org.ipph.app.weixin.model.message.MessageModel;

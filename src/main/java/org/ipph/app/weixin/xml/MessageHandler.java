@@ -4,6 +4,7 @@ import org.ipph.app.weixin.model.message.MessageModel;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+@Deprecated
 public class MessageHandler extends DefaultHandler {
 	private MessageModel message;
 	

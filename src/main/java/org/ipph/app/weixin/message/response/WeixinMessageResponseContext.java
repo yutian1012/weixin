@@ -1,18 +1,18 @@
-package org.ipph.app.weixin.message;
+package org.ipph.app.weixin.message.response;
 
 import org.ipph.app.weixin.enumeration.EventTypeEnum;
 import org.ipph.app.weixin.enumeration.MessageResponseEnum;
 import org.ipph.app.weixin.enumeration.MessageTypeEnum;
-import org.ipph.app.weixin.model.message.EventMessageModel;
 import org.ipph.app.weixin.model.message.MessageModel;
 import org.springframework.stereotype.Component;
+import org.ipph.app.weixin.util.WeiXinMessageTypeUtil;
 
 @Component
-public class WeixinMessageContext implements IMessageResponse{
+public class WeixinMessageResponseContext implements IMessageResponse{
 
 	@Override
 	public String responseMessage(MessageModel message) {
-		MessageTypeEnum type=getMessageType(message);
+		MessageTypeEnum type=WeiXinMessageTypeUtil.getByMessage(message);
 		
 		switch (type) {
 		case TEXT://文本消息类型
@@ -36,7 +36,7 @@ public class WeixinMessageContext implements IMessageResponse{
 	 * @return
 	 */
 	private String responseEventMessage(MessageModel message) {
-		EventTypeEnum type=getEventType(message);
+		EventTypeEnum type=WeiXinMessageTypeUtil.getByEventMessage(message);
 		
 		switch (type) {
 		case SUBSCRIBE://关注事件
@@ -50,31 +50,6 @@ public class WeixinMessageContext implements IMessageResponse{
 			break;
 		}
 		return getResponseMessage(message);
-	}
-	/**
-	 * 获取消息类型
-	 * @param message
-	 * @return
-	 */
-	private MessageTypeEnum getMessageType(MessageModel message) {
-		String type=message.getMsgType();
-		if(null==type||"".equals(type)) return null;
-		
-		return MessageTypeEnum.valueOf(type.toUpperCase());
-	}
-	
-	/**
-	 * 获取事件类型
-	 * @param message
-	 * @return
-	 */
-	private EventTypeEnum getEventType(MessageModel message) {
-		if(!(message instanceof EventMessageModel)) return null;
-		
-		String type=((EventMessageModel)message).getEvent();
-		if(null==type||"".equals(type)) return null;
-		
-		return EventTypeEnum.valueOf(type.toUpperCase());
 	}
 	
 	/**

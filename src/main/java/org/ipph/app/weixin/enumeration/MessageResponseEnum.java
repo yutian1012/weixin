@@ -1,8 +1,8 @@
 package org.ipph.app.weixin.enumeration;
 
-import org.ipph.app.weixin.message.IMessageResponse;
-import org.ipph.app.weixin.message.TextMessageResponseImpl;
-import org.ipph.app.weixin.message.SubscribeMessageResponseImpl;
+import org.ipph.app.weixin.message.response.IMessageResponse;
+import org.ipph.app.weixin.message.response.TextMessageResponseImpl;
+import org.ipph.app.weixin.message.response.SubscribeMessageResponseImpl;
 
 public enum MessageResponseEnum {
 	TEXT("text",new TextMessageResponseImpl(),null),

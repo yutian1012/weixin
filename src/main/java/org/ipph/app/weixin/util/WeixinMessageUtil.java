@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -15,7 +18,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.ipph.app.weixin.model.message.MessageModel;
 import org.ipph.app.weixin.xml.MessageHandler;
 import org.xml.sax.InputSource;
@@ -23,6 +29,82 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 public class WeixinMessageUtil {
+	
+	/**
+	 * 将xml节点转换为Map集合
+	 * @param in
+	 * @return
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String,String> xmlToMap(InputStream in) throws IOException, DocumentException{
+
+		Map<String, String> map = new HashMap<String, String>();
+		//从dom4j的jar包中，拿到SAXReader对象。
+		SAXReader reader = new SAXReader();
+		
+		Document doc =  reader.read(in);//从reader对象中,读取输入流
+		Element root = doc.getRootElement();//获取XML文档的根元素
+		List<Element> list = root.elements();//获得根元素下的所有子节点
+		for (Element e : list) {
+			map.put(e.getName(), e.getText());//遍历list对象，并将结果保存到集合中
+		}
+		return map;
+	}
+	/**
+	 * 通过xml获取map对象
+	 * @param xml
+	 * @return
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String,String> xmlToMap(String xml) throws IOException, DocumentException{
+
+		Map<String, String> map = new HashMap<String, String>();
+		//从dom4j的jar包中，拿到SAXReader对象。
+		SAXReader reader = new SAXReader();
+		
+		Document doc =  reader.read(new StringReader(xml));
+		Element root = doc.getRootElement();//获取XML文档的根元素
+		List<Element> list = root.elements();//获得根元素下的所有子节点
+		for (Element e : list) {
+			map.put(e.getName(), e.getText());//遍历list对象，并将结果保存到集合中
+		}
+		return map;
+	}
+	/**
+	 * 获取输入流输入的字符串
+	 * @param clazz
+	 * @param in
+	 * @return
+	 */
+	public static String getMessageXml(InputStream in) {
+		BufferedReader reader=null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(in,Charset.forName("UTF-8")));
+			char[] buf=new char[1024];
+			StringBuilder message=new StringBuilder();
+			int len=0;
+			while((len=reader.read(buf))!=-1) {
+				message.append(new String(buf,0,len));
+			}
+			if(message.length()>0) {
+				return message.toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * 获取从流中对象
 	 * @param in
@@ -32,6 +114,7 @@ public class WeixinMessageUtil {
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
+	@Deprecated
 	public static MessageModel getMessage(InputStream in) throws IOException, DocumentException, ParserConfigurationException, SAXException{
 		// 创建解析工厂  
         SAXParserFactory factory = SAXParserFactory.newInstance();  
@@ -47,6 +130,7 @@ public class WeixinMessageUtil {
         
         return handler.getMessage();
 	}
+	
 	
 	public static <T> T getMessage(Class<T> clazz,InputStream in) {
 		BufferedReader reader=null;
