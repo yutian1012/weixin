@@ -6,7 +6,7 @@ public class WeixinLinkMessageModel extends WeixinMessageModel{
 	private String Title;
 	private String Description;
 	private String Url;
-	private int MsgId;
+	private long MsgId;
 	public String getTitle() {
 		return Title;
 	}
@@ -25,10 +25,10 @@ public class WeixinLinkMessageModel extends WeixinMessageModel{
 	public void setUrl(String url) {
 		Url = url;
 	}
-	public int getMsgId() {
+	public long getMsgId() {
 		return MsgId;
 	}
-	public void setMsgId(int msgId) {
+	public void setMsgId(long msgId) {
 		MsgId = msgId;
 	}
 	

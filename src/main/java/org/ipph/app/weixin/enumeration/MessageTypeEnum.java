@@ -2,6 +2,7 @@ package org.ipph.app.weixin.enumeration;
 
 import org.ipph.app.weixin.model.message.receive.WeixinImageMessageModel;
 import org.ipph.app.weixin.model.message.receive.WeixinLinkMessageModel;
+import org.ipph.app.weixin.model.message.receive.WeixinLocationMessageModel;
 import org.ipph.app.weixin.model.message.receive.WeixinTextMessageModel;
 import org.ipph.app.weixin.model.message.receive.WeixinVideoMessageModel;
 import org.ipph.app.weixin.model.message.receive.WeixinVoiceMessageModel;
@@ -34,13 +35,18 @@ public enum MessageTypeEnum {
 		@Override
 		public Class<?> getMessageModel() {
 			// TODO Auto-generated method stub
-			return WeixinVoiceMessageModel.class;
+			return WeixinVideoMessageModel.class;
 		}
 	},LINK("link") {
 		@Override
 		public Class<?> getMessageModel() {
 			// TODO Auto-generated method stub
 			return WeixinLinkMessageModel.class;
+		}
+	},LOCATION("location") {
+		@Override
+		public Class<?> getMessageModel() {
+			return WeixinLocationMessageModel.class;
 		}
 	},
 	EVENT("event") {

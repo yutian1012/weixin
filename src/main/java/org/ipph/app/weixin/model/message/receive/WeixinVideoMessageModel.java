@@ -5,7 +5,7 @@ import org.ipph.app.weixin.model.message.WeixinMessageModel;
 public class WeixinVideoMessageModel extends WeixinMessageModel{
 	private String MediaId;
 	private String ThumbMediaId;
-	private int MsgId;
+	private long MsgId;
 	public String getMediaId() {
 		return MediaId;
 	}
@@ -18,11 +18,10 @@ public class WeixinVideoMessageModel extends WeixinMessageModel{
 	public void setThumbMediaId(String thumbMediaId) {
 		ThumbMediaId = thumbMediaId;
 	}
-	public int getMsgId() {
+	public long getMsgId() {
 		return MsgId;
 	}
-	public void setMsgId(int msgId) {
+	public void setMsgId(long msgId) {
 		MsgId = msgId;
 	}
-	
 }

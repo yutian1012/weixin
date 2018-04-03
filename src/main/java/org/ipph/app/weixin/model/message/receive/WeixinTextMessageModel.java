@@ -5,7 +5,7 @@ import org.ipph.app.weixin.model.message.WeixinMessageModel;
 public class WeixinTextMessageModel extends WeixinMessageModel{
 	private String Content;
 	
-	private int MsgId;
+	private long MsgId;
 
 	public String getContent() {
 		return Content;
@@ -15,12 +15,12 @@ public class WeixinTextMessageModel extends WeixinMessageModel{
 		Content = content;
 	}
 
-	public int getMsgId() {
+	public long getMsgId() {
 		return MsgId;
 	}
 
-	public void setMsgId(int msgId) {
+	public void setMsgId(long msgId) {
 		MsgId = msgId;
 	}
-	
+
 }

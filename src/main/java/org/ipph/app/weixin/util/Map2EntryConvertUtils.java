@@ -30,7 +30,7 @@ public class Map2EntryConvertUtils {
      * @return 
      */  
     @SuppressWarnings("rawtypes")  
-    public static <T> T convert(Map valueMap,Class<T> entityClass,String prefix){  
+    public static <T> T convert(Map valueMap,Class<T> entityClass,String prefix){
         ConvertEntryItem convertItem = convertItemCache.get(entityClass.getName());
         if(convertItem == null){  
             convertItem = ConvertEntryItem.createConvertItem(entityClass); 
@@ -102,30 +102,35 @@ public class Map2EntryConvertUtils {
         public Map<String, Method> getFieldSetMethodMap() {  
             return fieldSetMethodMap;  
         }  
-          
+        /**
+         * 变量Class类的所有属性和方法集合，会查找父类方法
+         * @param cls
+         */
         private void parseEntry(Class<?> cls){  
-            Field[] allField = cls.getDeclaredFields();  
-            Method m = null;  
-            String methodName;  
-            for(Field f: allField){  
-                methodName = f.getName();  
-                methodName = "set"+methodName.substring(0, 1).toUpperCase()+methodName.substring(1);  
-                try {  
-                    //只返回和当前字段类型相符的set方法，不支持多参数以及不同类型的set方法  
-                    m = cls.getDeclaredMethod(methodName, f.getType());  
-                    if(m != null){
-                        fieldNameList.add(f.getName());  
-                        fieldSetMethodMap.put(f.getName(), m);  
-                    }  
-                } catch (SecurityException e) {  
-                    log.error("parseEntry failed: SecurityException", e);  
-                } catch (NoSuchMethodException e) {  
-                    log.info("NoSuchMethod in "+cls.getName()+": "+methodName);  
-                }  
-            }  
-              
+        	
+        	for(Class<?> clazz = cls; clazz != Object.class ; clazz = clazz.getSuperclass()) { 
+        		Field[] allField = clazz.getDeclaredFields();  
+        		Method m = null;  
+        		String methodName;  
+        		for(Field f: allField){  
+        			methodName = f.getName();  
+        			methodName = "set"+methodName.substring(0, 1).toUpperCase()+methodName.substring(1);  
+        			try {  
+        				//只返回和当前字段类型相符的set方法，不支持多参数以及不同类型的set方法  
+        				m = clazz.getDeclaredMethod(methodName, f.getType());  
+        				if(m != null){
+        					fieldNameList.add(f.getName());  
+        					fieldSetMethodMap.put(f.getName(), m);  
+        				}  
+        			} catch (SecurityException e) {  
+        				log.error("parseEntry failed: SecurityException", e);  
+        			} catch (NoSuchMethodException e) {  
+        				log.info("NoSuchMethod in "+clazz.getName()+": "+methodName);  
+        			}  
+        		}  
+        	}
         }  
-  
+        
         public static ConvertEntryItem createConvertItem(Class<?> cls){  
             ConvertEntryItem ci = new ConvertEntryItem();  
             ci.parseEntry(cls);  

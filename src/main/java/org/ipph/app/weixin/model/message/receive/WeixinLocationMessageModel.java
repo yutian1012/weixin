@@ -7,7 +7,7 @@ public class WeixinLocationMessageModel extends WeixinMessageModel {
 	private String Location_Y;
 	private String Scale;
 	private String Label;
-	private int MsgId;
+	private long MsgId;
 	public String getLocation_X() {
 		return Location_X;
 	}
@@ -32,10 +32,11 @@ public class WeixinLocationMessageModel extends WeixinMessageModel {
 	public void setLabel(String label) {
 		Label = label;
 	}
-	public int getMsgId() {
+	public long getMsgId() {
 		return MsgId;
 	}
-	public void setMsgId(int msgId) {
+	public void setMsgId(long msgId) {
 		MsgId = msgId;
 	}
+	
 }

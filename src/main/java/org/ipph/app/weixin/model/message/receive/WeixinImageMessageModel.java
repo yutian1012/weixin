@@ -5,7 +5,7 @@ import org.ipph.app.weixin.model.message.WeixinMessageModel;
 public class WeixinImageMessageModel extends WeixinMessageModel{
 	private String PicUrl;
 	private String MediaId;
-	private int MsgId;
+	private long MsgId;
 	public String getPicUrl() {
 		return PicUrl;
 	}
@@ -18,10 +18,11 @@ public class WeixinImageMessageModel extends WeixinMessageModel{
 	public void setMediaId(String mediaId) {
 		MediaId = mediaId;
 	}
-	public int getMsgId() {
+	public long getMsgId() {
 		return MsgId;
 	}
-	public void setMsgId(int msgId) {
+	public void setMsgId(long msgId) {
 		MsgId = msgId;
 	}
+	
 }

@@ -31,6 +31,9 @@ public class ConvertFactory {
           
         convertHandlers.put(String.class.getName()+"To"+Integer.class.getName(), new ObjectToIntegerConvert());  
         convertHandlers.put(String.class.getName()+"To"+int.class.getName(), new ObjectToIntegerConvert());  
+        
+        convertHandlers.put(String.class.getName()+"To"+Long.class.getName(), new ObjectToLongConvert());  
+        convertHandlers.put(String.class.getName()+"To"+long.class.getName(), new ObjectToLongConvert());  
           
         Set<Entry<String, IConvert<?,?>>> entites = convertHandlers.entrySet();  
         
